@@ -110,7 +110,7 @@ with open(public_key_name, 'wb') as f:
 # --------- Code for authentification ---------------------------
 
 # Wrap up message
-print("Wrapping up downloads...")
+#print("Wrapping up downloads...")
 
 # Check if the signature file is in base64 format and if not convert to binary
 cmd_output = subprocess.run("file " + "--mime " "./" + digital_sig_name, shell=True, capture_output=True).stdout.decode('utf-8').strip()
