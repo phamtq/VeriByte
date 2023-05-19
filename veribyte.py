@@ -33,10 +33,14 @@ the public key (.pub). Ideally, these should all be from different mirrors.
 
 import requests
 from tqdm import tqdm
+import time
+import requests
+import subprocess
+
 
 # Ask for the URL of the file, the digital signature (.sig), and the public 
 # key (.pub)
-iso_url = input("Please paste the URL of the ISO/IMG file: ")
+iso_url = input("Please enter the URL of the ISO/IMG file: ")
 digital_sig_url = input("Enter the URL of the digital signature (.sig): ")
 public_key_url = input("Enter the URL of the public key (.sig, PEM format): ")
 
@@ -102,3 +106,23 @@ with open(public_key_name, 'wb') as f:
         f.write(data)
         # Update the progress bar manually
         progress.update(len(data))
+
+# --------- Code for authentification ---------------------------
+
+# Wrap up message
+print("Wrapping up downloads...")
+
+# Check if the signature file is in base64 format and if not convert to binary
+cmd_output = subprocess.run("file " + "--mime " "./" + digital_sig_name, shell=True, capture_output=True).stdout.decode('utf-8').strip()
+encoding_output = cmd_output.split()
+if encoding_output[1] == "text/plain;":
+    subprocess.run("openssl base64 -d -in " + digital_sig_name + " -out decoded.signature.file.sig", shell=True)
+else:
+    print("Error converting digital signature to binary format.")
+
+# Now verify the file
+cmd_output = subprocess.run("openssl dgst -verify " + public_key_name + " -sha256 -signature decoded.signature.file.sig " + iso_name, shell=True, capture_output=True).stdout.decode('utf-8').strip()
+if cmd_output == "Verified OK":
+    print("The file is authentic.")
+else:
+    print("Authenticity Failed: File is either compromised or damaged. Please perform a checksum and compare it to the one on the website.")
