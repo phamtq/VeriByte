@@ -23,15 +23,26 @@ the public key (.pub). Ideally, these should all be from different mirrors.
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-- [Contact](#contact)
 
 ## Dependencies
+You'll need the following Python libraries in order for this script to work:
+- [Requests](https://pypi.org/project/requests/) - a simple, yet elegant, HTTP library.
+- [tqdm](https://pypi.org/project/tqdm/) - Fast, Extensible Progress Meter.
+
+You can install them using [pip](https://pypi.org/project/pip/) or use your OS's package manager.
+
+This script has only been tested on Linux with a possibility that it also works in macOS. 
 
 ## Installation
+Download the script to any directory and run it.
 
 ## Usage
+To run the script type the following at the command prompt:
+```
+$ python veribyte.py
+```
+
+You'll be asked to copy and paste the URL of the various files. If you get a "Verified OK" then the file is legit. If you get any other message then it could be that the file is corrupted during download or that the file is compromised.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
